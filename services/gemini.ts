@@ -5,7 +5,7 @@ const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' }
 
 export const getBusinessAnalysis = async (challenge: string) => {
     const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash-exp",
+        model: "gemini-1.5-flash",
         contents: `Analyze this business challenge and provide a '360-degree perspective' covering Strategy, Operations, and Growth: "${challenge}"`,
         config: {
             responseMimeType: "application/json",

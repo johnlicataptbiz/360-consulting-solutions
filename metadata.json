@@ -1,0 +1,8 @@
+{
+  "name": "360 Consulting Solutions",
+  "description": "A premium, minimalist business consultancy website inspired by jerred.com, featuring an AI-powered 360-degree business analysis tool.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

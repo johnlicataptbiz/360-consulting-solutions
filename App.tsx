@@ -1,33 +1,53 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Partners from './components/Partners';
-import Testimonials from './components/Testimonials';
-import Solutions from './components/Solutions';
-import AiAssistant from './components/AiAssistant';
-import About from './components/About';
-import Blog from './components/Blog';
-import Contact from './components/Contact';
+import ValueProp from './components/ValueProp';
+import ProcessSection from './components/ProcessSection';
+import BentoServices from './components/BentoServices';
+import MarqueePartners from './components/MarqueePartners';
+import About360 from './components/About360';
+import BlogHub from './components/BlogHub';
 import Footer from './components/Footer';
+import ConsultModal from './components/ConsultModal';
+import FinalCTA from './components/FinalCTA';
 
-function App() {
+const App: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
-    <div className="min-h-screen selection:bg-white selection:text-black">
-      <Navbar />
+    <div className="relative min-h-screen bg-gray-950 text-white selection:bg-orange-500 selection:text-white">
+      <motion.div className="progress-bar" style={{ scaleX }} />
+      <Navbar onConsultClick={openModal} />
+      
       <main>
-        <Hero />
-        <Partners />
-        <Solutions />
-        <Testimonials />
-        <AiAssistant />
-        <About />
-        <Blog />
-        <Contact />
+        <Hero onConsultClick={openModal} />
+        <ValueProp />
+        <ProcessSection onConsultClick={openModal} />
+        <BentoServices onConsultClick={openModal} />
+        <MarqueePartners />
+        <About360 onConsultClick={openModal} />
+        <BlogHub onConsultClick={openModal} />
+        <FinalCTA onConsultClick={openModal} />
       </main>
+
       <Footer />
+
+      <AnimatePresence>
+        {isModalOpen && <ConsultModal onClose={closeModal} />}
+      </AnimatePresence>
     </div>
   );
-}
+};
 
 export default App;

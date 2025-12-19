@@ -10,6 +10,22 @@ interface ConsultModalProps {
 const ConsultModal: React.FC<ConsultModalProps> = ({ onClose, selectedService }) => {
   const [loading, setLoading] = useState(true);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    const originalPadding = document.body.style.paddingRight;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPadding;
+    };
+  }, []);
+
+  // Load HubSpot embed script
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js';
@@ -17,25 +33,25 @@ const ConsultModal: React.FC<ConsultModalProps> = ({ onClose, selectedService })
     script.async = true;
     document.body.appendChild(script);
 
-    const timer = setTimeout(() => setLoading(false), 800);
+    const timer = setTimeout(() => setLoading(false), 1200);
 
     return () => {
       clearTimeout(timer);
-      const existingScript = document.querySelector(`script[src="${script.src}"]`);
-      if (existingScript) document.body.removeChild(existingScript);
+      const existing = document.querySelector(`script[src="${script.src}"]`);
+      if (existing) document.body.removeChild(existing);
     };
   }, []);
 
   const defaultDetails = [
     'Identify core operational and life bottlenecks.',
     'Define clear trajectory for the next 12 months.',
-    'No-obligation strategic audit.'
+    'No-obligation strategic audit.',
   ];
-
   const details = selectedService?.details || defaultDetails;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
+      {/* Dark backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -44,88 +60,176 @@ const ConsultModal: React.FC<ConsultModalProps> = ({ onClose, selectedService })
         className="absolute inset-0 bg-gray-950/95 backdrop-blur-xl"
       />
 
+      {/* Modal container */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 40 }}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 40 }}
-        className="relative z-10 w-full max-w-5xl glass rounded-[4rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] flex flex-col max-h-[90vh] border border-white/10"
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="relative z-10 w-full max-w-6xl h-[90vh] rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 flex flex-col md:flex-row bg-gray-950"
       >
-        <div className="flex flex-col lg:flex-row h-full overflow-hidden">
-          {/* Left Side: Professional Sidebar */}
-          <div className="hidden lg:flex w-[320px] bg-white/[0.02] border-r border-white/10 flex-col p-12 justify-between shrink-0">
-            <div>
-              <div className="w-16 h-16 bg-white text-black rounded-2xl flex items-center justify-center font-black text-2xl mb-12 shadow-2xl">360</div>
+        {/* ═══════════════════════════════════════════════════════════════
+            LEFT PANEL – Branding, Details, Photo (Desktop only)
+        ═══════════════════════════════════════════════════════════════ */}
+        <div className="hidden lg:flex w-[360px] bg-gradient-to-b from-gray-900 to-gray-950 border-r border-white/10 flex-col shrink-0 overflow-hidden">
+          {/* Top section: Logo + Text */}
+          <div className="p-10 pb-8">
+            {/* Logo */}
+            <img
+              src="/images/360-logo-new.png"
+              alt="360 Consulting Solutions"
+              className="h-12 w-auto object-contain brightness-0 invert mb-10"
+            />
 
-              <h2 className="text-4xl font-black mb-10 leading-[1.1] tracking-tighter uppercase font-heading">
-                {selectedService ? (
-                  <>The <span className="text-orange-500">{selectedService.title.split(' ')[0]}</span> <br /> Logic.</>
-                ) : (
-                  <>The Logic of <br /><span className="text-orange-500">Success.</span></>
-                )}
-              </h2>
+            {/* Headline */}
+            <h2 className="text-4xl font-black mb-8 leading-[1.05] tracking-tight uppercase font-heading text-white">
+              {selectedService ? (
+                <>
+                  The <span className="text-orange-500">{selectedService.title.split(' ')[0]}</span>
+                  <br />Logic.
+                </>
+              ) : (
+                <>
+                  The Logic of
+                  <br />
+                  <span className="text-orange-500">Success.</span>
+                </>
+              )}
+            </h2>
 
-              <div className="space-y-8">
-                {details.map((detail, idx) => (
-                  <div key={idx} className="flex items-start gap-4 group">
-                    <div className="w-6 h-6 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center text-[10px] mt-1 shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">✓</div>
-                    <p className="text-gray-400 text-sm font-medium leading-relaxed group-hover:text-gray-200 transition-colors">{detail}</p>
+            {/* Details list */}
+            <div className="space-y-5">
+              {details.map((detail, idx) => (
+                <div key={idx} className="flex items-start gap-4">
+                  <div className="w-6 h-6 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center text-xs mt-0.5 shrink-0 font-bold">
+                    ✓
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/5] group shadow-2xl border border-white/10 mt-12 bg-gray-900">
-              <img
-                src="/images/john-office-headshot.jpg"
-                alt="John Licata"
-                className="absolute inset-0 w-full h-full object-cover object-center grayscale brightness-90 group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent opacity-80" />
-              <div className="absolute bottom-10 left-10 text-left">
-                <p className="text-white font-black text-2xl uppercase tracking-tighter font-heading leading-none mb-2">John Licata</p>
-                <p className="text-orange-500 text-[10px] uppercase font-black tracking-[0.4em]">Principal Coach</p>
-              </div>
+                  <p className="text-gray-400 text-sm font-medium leading-relaxed">{detail}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right Side: HubSpot Interface */}
-          <div className="flex-1 flex flex-col p-8 md:p-14 bg-white/[0.01]">
-            <div className="flex justify-between items-center mb-10">
-              <div>
-                <span className="text-orange-500 text-[10px] font-black tracking-[0.5em] uppercase mb-2 block">Secure Your Session</span>
-                <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter font-heading text-white">Calendar Sync</h3>
+          {/* Photo section – contained at bottom */}
+          <div className="flex-1 relative mt-auto min-h-[280px]">
+            <div className="absolute inset-0 overflow-hidden">
+              <img
+                src="/images/john-office-headshot.jpg"
+                alt="John Licata"
+                className="w-full h-full object-cover object-top scale-105"
+              />
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/70 to-transparent" />
+            </div>
+            {/* Name badge */}
+            <div className="absolute bottom-8 left-10 z-10">
+              <p className="text-white font-black text-2xl uppercase tracking-tight font-heading leading-none mb-1">
+                John Licata
+              </p>
+              <p className="text-orange-500 text-[10px] uppercase font-black tracking-[0.35em]">
+                Principal Coach
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════════
+            RIGHT PANEL – HubSpot Embed with Strategic Overlays
+        ═══════════════════════════════════════════════════════════════ */}
+        <div className="flex-1 bg-white relative flex flex-col overflow-hidden">
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-5 right-5 z-[70] w-11 h-11 rounded-full bg-white hover:bg-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-all active:scale-95 shadow-lg border border-gray-200"
+            aria-label="Close Modal"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* ══════ STRATEGIC OVERLAYS ══════ */}
+
+          {/* Top overlay - covers HubSpot profile photo, adds custom header */}
+          <div className="absolute top-0 left-0 right-0 h-[100px] bg-gradient-to-b from-white via-white to-white/95 z-[60] pointer-events-none flex items-center justify-center">
+            <div className="text-center pt-2">
+              <p className="text-[10px] font-black tracking-[0.4em] text-orange-500 uppercase mb-1">
+                Schedule Your Session
+              </p>
+              <h3 className="text-xl font-black text-gray-900 tracking-tight">
+                Select a Date & Time
+              </h3>
+            </div>
+          </div>
+
+          {/* Right side overlay - covers "Meeting duration" header area */}
+          <div className="absolute top-[100px] right-0 w-[220px] h-[120px] bg-white z-[60] pointer-events-none flex flex-col justify-center px-4">
+            <p className="text-[9px] font-black tracking-[0.3em] text-gray-400 uppercase mb-1">
+              Available
+            </p>
+            <p className="text-lg font-black text-gray-900 tracking-tight">
+              Time Slots
+            </p>
+            <p className="text-[10px] text-gray-400 mt-1">
+              30-minute session
+            </p>
+          </div>
+
+          {/* Mobile header (only visible on small screens) */}
+          <div className="lg:hidden p-6 pb-4 border-b border-gray-100 relative z-[65]">
+            <img
+              src="/images/360-logo-new.png"
+              alt="360 Consulting Solutions"
+              className="h-8 w-auto object-contain mb-3"
+            />
+            <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight">
+              Book Your Session
+            </h3>
+          </div>
+
+          {/* Loading state */}
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center z-[80] bg-white">
+              <div className="flex flex-col items-center">
+                <div className="w-14 h-14 border-[3px] border-orange-500/20 border-t-orange-500 rounded-full animate-spin mb-5" />
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-gray-400">
+                  Loading Calendar...
+                </p>
               </div>
-              <button
-                onClick={onClose}
-                className="w-14 h-14 rounded-full glass flex items-center justify-center hover:bg-white hover:text-black transition-all group active:scale-95"
-                aria-label="Close Modal"
-              >
-                <span className="text-2xl group-hover:rotate-90 transition-transform duration-300">✕</span>
-              </button>
             </div>
+          )}
 
-            <div className="flex-1 relative min-h-[450px] lg:min-h-0 bg-black/40 rounded-[3rem] border border-white/5 overflow-hidden shadow-inner">
-              {loading && (
-                <div className="absolute inset-0 flex items-center justify-center z-10 bg-gray-950">
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 border-[3px] border-orange-500/10 border-t-orange-500 rounded-full animate-spin mb-6" />
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Syncing Systems</p>
-                  </div>
-                </div>
-              )}
+          {/* HubSpot Embed Container */}
+          <div className="flex-1 w-full h-full min-h-0 pt-[50px]">
+            <div
+              className="meetings-iframe-container w-full h-full"
+              data-src="https://meetings.hubspot.com/john2490?embed=true"
+              style={{
+                height: '100%',
+                width: '100%',
+                minHeight: '500px'
+              }}
+            />
+          </div>
 
-              <div
-                className="meetings-iframe-container w-full h-full custom-scrollbar"
-                data-src="https://meetings.hubspot.com/john2490?embed=true"
-              ></div>
-            </div>
-
-            <p className="mt-8 text-center text-[10px] text-gray-600 font-bold uppercase tracking-[0.5em]">
-              Encrypted Booking • Priority Access • 30-Min Strategic Audit
+          {/* Footer */}
+          <div className="p-4 border-t border-gray-100 bg-gray-50/80 relative z-[60]">
+            <p className="text-center text-[10px] text-gray-400 font-semibold uppercase tracking-[0.3em]">
+              Secure Booking • 30-Min Strategic Audit • Priority Access
             </p>
           </div>
         </div>
       </motion.div>
+
+      {/* Global styles for HubSpot iframe */}
+      <style>{`
+        .meetings-iframe-container iframe {
+          border: none !important;
+          border-radius: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          min-height: 500px !important;
+        }
+      `}</style>
     </div>
   );
 };

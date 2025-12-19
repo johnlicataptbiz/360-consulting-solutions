@@ -177,9 +177,9 @@ const Hero: React.FC<HeroProps> = ({ onConsultClick }) => {
           >
             <div className="relative aspect-[4/5] w-full max-w-md mx-auto overflow-hidden rounded-2xl border border-white/10 grayscale-[0.4] hover:grayscale-0 transition-all duration-700 shadow-2xl">
               <img
-                src="/images/john-hero-new.jpg"
+                src="/images/john-hero-final.png"
                 alt="John Licata"
-                className="w-full h-full object-cover scale-[1.05] hover:scale-100 transition-transform duration-700"
+                className="w-full h-full object-cover scale-[1.05] hover:scale-100 transition-transform duration-700 blur-[0.2px]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent opacity-60" />
 

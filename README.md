@@ -6,6 +6,8 @@
 
 This contains everything you need to run your app locally.
 
+Live site: https://360-consulting-solutions-johnlicata.surge.sh/
+
 View your app in AI Studio: https://ai.studio/apps/drive/1GjnRU8foOA7gWelBpzrkz3xeek8patT0
 
 ## Run Locally
@@ -18,3 +20,8 @@ View your app in AI Studio: https://ai.studio/apps/drive/1GjnRU8foOA7gWelBpzrkz3
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Deploy (Surge)
+
+1. Build and deploy:
+   `npm run deploy`

@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ValueProp from './components/ValueProp';
-import ProcessSection from './components/ProcessSection';
+import AIStrategist from './components/AIStrategist';
 import BentoServices from './components/BentoServices';
 import MarqueePartners from './components/MarqueePartners';
 import About360 from './components/About360';
@@ -53,7 +53,7 @@ const App: React.FC = () => {
           <MarqueePartners />
           <BentoServices onConsultClick={openServiceModal} />
           <ResourcesSection onConsultClick={openModal} />
-          <ProcessSection onConsultClick={openModal} />
+          <AIStrategist onConsultClick={openModal} />
           <About360 onConsultClick={openModal} />
           <FinalCTA onConsultClick={openModal} />
           <BlogHub onConsultClick={openModal} />

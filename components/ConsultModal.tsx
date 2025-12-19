@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import CustomCalendar from './CustomCalendar';
 import { ServiceItem } from '../types';
 
 interface ConsultModalProps {
@@ -8,7 +9,7 @@ interface ConsultModalProps {
 }
 
 const ConsultModal: React.FC<ConsultModalProps> = ({ onClose, selectedService }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -25,22 +26,7 @@ const ConsultModal: React.FC<ConsultModalProps> = ({ onClose, selectedService })
     };
   }, []);
 
-  // Load HubSpot embed script
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js';
-    script.type = 'text/javascript';
-    script.async = true;
-    document.body.appendChild(script);
-
-    const timer = setTimeout(() => setLoading(false), 1200);
-
-    return () => {
-      clearTimeout(timer);
-      const existing = document.querySelector(`script[src="${script.src}"]`);
-      if (existing) document.body.removeChild(existing);
-    };
-  }, []);
+  // No HubSpot embed – we will render the custom calendar component directly.
 
   const defaultDetails = [
     'Identify core operational and life bottlenecks.',
@@ -198,18 +184,8 @@ const ConsultModal: React.FC<ConsultModalProps> = ({ onClose, selectedService })
             </div>
           )}
 
-          {/* HubSpot Embed Container */}
-          <div className="flex-1 w-full h-full min-h-0 pt-[50px]">
-            <div
-              className="meetings-iframe-container w-full h-full"
-              data-src="https://meetings.hubspot.com/john2490?embed=true"
-              style={{
-                height: '100%',
-                width: '100%',
-                minHeight: '500px'
-              }}
-            />
-          </div>
+          {/* Render the custom calendar component */}
+          <CustomCalendar onClose={onClose} selectedService={selectedService?.title} />
 
           {/* Footer */}
           <div className="p-4 border-t border-gray-100 bg-gray-50/80 relative z-[60]">

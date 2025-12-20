@@ -226,8 +226,8 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
                 </div>
               )}
 
-              <div className="flex-1 overflow-hidden px-6 py-6">
-                <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 h-full">
+              <div className="flex-1 overflow-y-auto custom-scrollbar px-6 py-6">
+                <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8">
                   {/* Calendar */}
                   <div className="min-w-0">
                     <div className="flex items-center justify-between mb-5">

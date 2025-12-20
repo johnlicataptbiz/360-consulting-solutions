@@ -55,7 +55,10 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
     import.meta.env.VITE_HUBSPOT_MEETING_URL ||
     (process.env.HUBSPOT_MEETING_URL as string | undefined) ||
     'https://meetings.hubspot.com/john2490';
-  const proxyBaseUrl = (import.meta.env.VITE_HUBSPOT_PROXY_BASE_URL || '').replace(/\/+$/, '');
+  const proxyBaseUrl = (
+    import.meta.env.VITE_HUBSPOT_PROXY_BASE_URL || 
+    'https://hubspot-proxy-production.up.railway.app'
+  ).replace(/\/+$/, '');
 
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -229,7 +232,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
               <div className="flex-1 overflow-y-auto custom-scrollbar px-6 py-6">
                 <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8">
                   {/* Calendar */}
-                  <div className="min-w-0">
+                  <div className="min-w-0 max-w-[380px] mx-auto w-full">
                     <div className="flex items-center justify-between mb-5">
                       <h3 className="text-lg md:text-xl font-black text-white tracking-tight">
                         {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
@@ -239,7 +242,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-7 gap-2 mb-3">
+                    <div className="grid grid-cols-7 gap-1.5 mb-3">
                       {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
                         <div key={day} className="text-center text-xs font-black text-white/30">
                           {day}
@@ -247,7 +250,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
                       ))}
                     </div>
 
-                    <div className="grid grid-cols-7 gap-2">
+                    <div className="grid grid-cols-7 gap-1.5">
                       {calendarCells.map((date, idx) => {
                         if (!date) return <div key={idx} className="aspect-square" />;
 
@@ -264,7 +267,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
                             }}
                             disabled={!hasSlots}
                             className={[
-                              'relative aspect-square rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-200 border',
+                              'relative aspect-square rounded-lg flex items-center justify-center text-[13px] font-bold transition-all duration-200 border',
                               isSelected
                                 ? 'bg-orange-500 text-white border-orange-400 shadow-[0_0_0_1px_rgba(249,115,22,0.35),0_0_35px_rgba(249,115,22,0.15)]'
                                 : hasSlots
@@ -312,7 +315,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
                             key={i}
                             onClick={() => setSelectedSlot(slot)}
                             className={[
-                              'w-full py-3 px-4 rounded-xl text-sm font-black uppercase tracking-wide transition-all border flex items-center justify-between',
+                              'w-full py-2.5 px-4 rounded-lg text-sm font-black uppercase tracking-wide transition-all border flex items-center justify-between',
                               selectedSlot === slot
                                 ? 'bg-white text-[#0a0a0f] border-white shadow-[0_12px_40px_rgba(0,0,0,0.35)]'
                                 : 'bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-white/20',

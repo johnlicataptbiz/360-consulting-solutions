@@ -51,6 +51,12 @@ interface CustomCalendarProps {
 }
 
 const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, onClose }) => {
+  const meetingUrl =
+    import.meta.env.VITE_HUBSPOT_MEETING_URL ||
+    (process.env.HUBSPOT_MEETING_URL as string | undefined) ||
+    'https://meetings.hubspot.com/john2490';
+  const proxyBaseUrl = (import.meta.env.VITE_HUBSPOT_PROXY_BASE_URL || '').replace(/\/+$/, '');
+
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<HubSpotSlot | null>(null);
@@ -75,7 +81,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
     try {
       const month = toMonthKey(year, monthIndex);
       const params = new URLSearchParams({ month, timezone: userTimezone });
-      const response = await fetch(`/api/hubspot/oro/availability/MonthInfo?${params.toString()}`);
+      const response = await fetch(`${proxyBaseUrl}/api/hubspot/oro/availability/MonthInfo?${params.toString()}`);
       if (!response.ok) throw new Error(`Failed to fetch availability (${response.status})`);
       const data = (await response.json()) as MonthInfoResponse;
       setAvailability(data);
@@ -129,7 +135,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
     try {
       const startTime = Date.parse(selectedSlot.start);
       const duration = Date.parse(selectedSlot.end) - Date.parse(selectedSlot.start);
-      const response = await fetch('/api/hubspot/oro/book', {
+      const response = await fetch(`${proxyBaseUrl}/api/hubspot/oro/book`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -286,7 +292,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
                         <p className="text-[10px] text-white/30 mt-1">{sessionMinutes}-minute session</p>
                       </div>
                       <a
-                        href="https://meetings.hubspot.com/john2490"
+                        href={meetingUrl}
                         target="_blank"
                         rel="noreferrer"
                         className="text-[9px] font-black tracking-[0.35em] text-white/40 uppercase hover:text-white/70 transition-colors"
@@ -484,4 +490,3 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
 };
 
 export default CustomCalendar;
-

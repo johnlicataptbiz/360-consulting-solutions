@@ -1,0 +1,48 @@
+name: Sync to HubSpot
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+        env:
+          VITE_HUBSPOT_PROXY_BASE_URL: https://360-consulting-solutions.vercel.app
+
+      - name: Install HubSpot CLI
+        run: npm install -g @hubspot/cli
+
+      - name: Authenticate HubSpot CLI
+        run: |
+          hs account auth \
+            --personal-access-key="${{ secrets.HUBSPOT_PAK }}" \
+            --account=${{ secrets.HUBSPOT_PORTAL_ID }} \
+            --name=default \
+            --default
+        env:
+          # Use a fake home directory to avoid permission issues when creating config
+          HOME: /tmp
+
+      - name: Upload to HubSpot
+        run: |
+          hs upload dist 360-consulting-solutions-alt --force
+        env:
+          HOME: /tmp

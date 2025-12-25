@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
       process.env.HUBSPOT_MEETING_URL ||
       '';
     return {
+      base: './',
       server: {
         port: 3000,
         host: '0.0.0.0',

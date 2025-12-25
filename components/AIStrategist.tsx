@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CTAButton from './CTAButton';
 
-const DEFAULT_PROXY_URL = 'https://360consulting.up.railway.app';
+const DEFAULT_PROXY_URL = '';
 const proxyBaseUrl = (import.meta.env.VITE_HUBSPOT_PROXY_BASE_URL || DEFAULT_PROXY_URL).replace(/\/+$/, '');
 
 interface AIStrategistProps {

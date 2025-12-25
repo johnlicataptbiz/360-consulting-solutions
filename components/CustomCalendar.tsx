@@ -54,8 +54,8 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ selectedServiceName, on
   const meetingUrl =
     import.meta.env.VITE_HUBSPOT_MEETING_URL ||
     'https://meetings.hubspot.com/john2490';
-  // Fallback to production proxy if no environment variable is set
-  const DEFAULT_PROXY_URL = 'https://360consulting.up.railway.app';
+  // Fallback to relative path for Vercel co-location
+  const DEFAULT_PROXY_URL = '';
   const proxyBaseUrl = (import.meta.env.VITE_HUBSPOT_PROXY_BASE_URL || DEFAULT_PROXY_URL).replace(/\/+$/, '');
 
   const [currentDate, setCurrentDate] = useState(() => new Date());

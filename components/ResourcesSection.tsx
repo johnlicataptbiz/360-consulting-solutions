@@ -5,9 +5,10 @@ import { BookOpen, FileText, ArrowRight, Sparkles, Zap } from 'lucide-react';
 
 interface ResourcesSectionProps {
     onConsultClick: () => void;
+    onWorkbookClick: () => void;
 }
 
-const ResourcesSection: React.FC<ResourcesSectionProps> = ({ onConsultClick }) => {
+const ResourcesSection: React.FC<ResourcesSectionProps> = ({ onConsultClick, onWorkbookClick }) => {
     const guides = [
         {
             title: "The Scale Blueprint",
@@ -75,31 +76,35 @@ const ResourcesSection: React.FC<ResourcesSectionProps> = ({ onConsultClick }) =
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8">
-                    {guides.map((guide, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.1 }}
-                            viewport={{ once: true }}
-                            className="group p-12 bg-white/[0.02] border border-white/10 rounded-[3rem] hover:border-[#FF7A3D]/50 transition-all duration-500 relative polish-shine"
-                            aria-label={guide.title}
-                        >
-                            <div className="flex justify-between items-start mb-10">
-                                <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-[#FF7A3D] group-hover:text-white transition-all duration-500">
-                                    {guide.icon}
+                    {guides.map((guide, idx) => {
+                        const isScaleBlueprint = guide.title === "The Scale Blueprint";
+                        return (
+                            <motion.div
+                                key={idx}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                viewport={{ once: true }}
+                                onClick={isScaleBlueprint ? onWorkbookClick : undefined}
+                                className={`group p-12 bg-white/[0.02] border border-white/10 rounded-[3rem] hover:border-[#FF7A3D]/50 transition-all duration-500 relative polish-shine ${isScaleBlueprint ? 'cursor-pointer' : ''}`}
+                                aria-label={guide.title}
+                            >
+                                <div className="flex justify-between items-start mb-10">
+                                    <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-[#FF7A3D] group-hover:text-white transition-all duration-500">
+                                        {guide.icon}
+                                    </div>
+                                    <span className="px-5 py-2 rounded-full border border-white/10 text-[9px] font-black uppercase tracking-[0.2em] bg-black/50 text-gray-400">
+                                        {isScaleBlueprint ? 'Interactive Guide' : guide.type}
+                                    </span>
                                 </div>
-                                <span className="px-5 py-2 rounded-full border border-white/10 text-[9px] font-black uppercase tracking-[0.2em] bg-black/50 text-gray-400">
-                                    {guide.type}
-                                </span>
-                            </div>
-                            <h3 className="text-4xl font-black tracking-tighter uppercase font-heading mb-4 group-hover:text-[#FF7A3D] transition-colors">{guide.title}</h3>
-                            <p className="text-gray-300 text-lg mb-10 leading-relaxed font-light group-hover:text-white transition-colors">{guide.description}</p>
-                            <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-[#FF7A3D]">
-                                Coming Soon <ArrowRight size={18} />
-                            </div>
-                        </motion.div>
-                    ))}
+                                <h3 className="text-4xl font-black tracking-tighter uppercase font-heading mb-4 group-hover:text-[#FF7A3D] transition-colors">{guide.title}</h3>
+                                <p className="text-gray-300 text-lg mb-10 leading-relaxed font-light group-hover:text-white transition-colors">{guide.description}</p>
+                                <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-[#FF7A3D]">
+                                    {isScaleBlueprint ? 'Launch Workbook' : 'Coming Soon'} <ArrowRight size={18} />
+                                </div>
+                            </motion.div>
+                        );
+                    })}
                 </div>
             </div>
         </section>

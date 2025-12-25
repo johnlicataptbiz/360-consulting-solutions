@@ -13,12 +13,14 @@ import Footer from './components/Footer';
 import ConsultModal from './components/ConsultModal';
 import LaunchPathModal from './components/LaunchPathModal';
 import FinalCTA from './components/FinalCTA';
+import ScaleBlueprintWorkbook from './components/ScaleBlueprintWorkbook';
 
 import { ServiceItem } from './types';
 
 const App: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLaunchPathOpen, setIsLaunchPathOpen] = useState(false);
+  const [isWorkbookOpen, setIsWorkbookOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -45,6 +47,9 @@ const App: React.FC = () => {
   const openLaunchPath = () => setIsLaunchPathOpen(true);
   const closeLaunchPath = () => setIsLaunchPathOpen(false);
 
+  const openWorkbook = () => setIsWorkbookOpen(true);
+  const closeWorkbook = () => setIsWorkbookOpen(false);
+
   return (
     <div className="relative min-h-screen bg-gray-950 text-white selection:bg-[#FF7A3D] selection:text-white">
       <motion.div className="progress-bar" style={{ scaleX }} />
@@ -52,9 +57,9 @@ const App: React.FC = () => {
       {/* Content Wrapper that scales while modal is open */}
       <motion.div
         animate={{ 
-          scale: (isModalOpen || isLaunchPathOpen) ? 0.95 : 1,
-          opacity: (isModalOpen || isLaunchPathOpen) ? 0.4 : 1,
-          filter: (isModalOpen || isLaunchPathOpen) ? 'blur(10px)' : 'blur(0px)'
+          scale: (isModalOpen || isLaunchPathOpen || isWorkbookOpen) ? 0.95 : 1,
+          opacity: (isModalOpen || isLaunchPathOpen || isWorkbookOpen) ? 0.4 : 1,
+          filter: (isModalOpen || isLaunchPathOpen || isWorkbookOpen) ? 'blur(10px)' : 'blur(0px)'
         }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="origin-top"
@@ -68,7 +73,7 @@ const App: React.FC = () => {
             <MarqueePartners />
             <BentoServices onConsultClick={openServiceModal} onLaunchPathClick={openLaunchPath} />
             <AIStrategist onConsultClick={openModal} />
-            <ResourcesSection onConsultClick={openModal} />
+            <ResourcesSection onConsultClick={openModal} onWorkbookClick={openWorkbook} />
             <About360 onConsultClick={openModal} />
             <FinalCTA onConsultClick={openModal} />
             <BlogHub onConsultClick={openModal} />
@@ -83,6 +88,10 @@ const App: React.FC = () => {
       </AnimatePresence>
 
       <LaunchPathModal isOpen={isLaunchPathOpen} onClose={() => setIsLaunchPathOpen(false)} />
+
+      <AnimatePresence>
+        {isWorkbookOpen && <ScaleBlueprintWorkbook onClose={closeWorkbook} />}
+      </AnimatePresence>
     </div>
   );
 };

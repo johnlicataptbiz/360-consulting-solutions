@@ -33,11 +33,13 @@ jobs:
       - name: Authenticate HubSpot CLI
         run: |
           hs account auth \
-            --personal-access-key="${{ secrets.HUBSPOT_PAK }}" \
-            --account=${{ secrets.HUBSPOT_PORTAL_ID }} \
+            --personal-access-key="$HUBSPOT_PAK" \
+            --account="$HUBSPOT_PORTAL_ID" \
             --name=default \
             --default
         env:
+          HUBSPOT_PAK: ${{ secrets.HUBSPOT_PAK }}
+          HUBSPOT_PORTAL_ID: ${{ secrets.HUBSPOT_PORTAL_ID }}
           # Use a fake home directory to avoid permission issues when creating config
           HOME: /tmp
 

@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-orange-500: #FF7A3D;
-  --color-orange-600: #FF5C00;
+  --color-orange-500: #ff7a3d;
+  --color-orange-600: #ff5c00;
   --font-heading: "Space Grotesk", sans-serif;
   --font-sans: "Inter", sans-serif;
 }
 
 @layer base {
   :root {
-    --accent: #FF7A3D;
+    --accent: #ff7a3d;
     --bg: #030712;
   }
   body {
@@ -28,7 +28,11 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
   .text-gradient {
-    background: linear-gradient(135deg, rgba(255, 122, 61, 0.8) 0%, rgba(255, 92, 0, 0.8) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 122, 61, 0.8) 0%,
+      rgba(255, 92, 0, 0.8) 100%
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -43,7 +47,7 @@
     display: inline-block;
   }
   .glimmer::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
@@ -101,7 +105,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(to right, #FF7A3D, #FF7A3D);
+    background: linear-gradient(to right, #ff7a3d, #ff7a3d);
     transform-origin: 0%;
     z-index: 100;
   }
@@ -185,17 +189,76 @@
   .modal-content {
     max-height: calc(90vh - 2rem);
   }
+
+  .loader-text-shadow {
+    color: transparent;
+    text-shadow:
+      0 8px 16px rgba(0, 0, 0, 0.5),
+      0 16px 32px rgba(0, 0, 0, 0.3);
+  }
+  .loader-gradient-text {
+    background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #e5e5e5 25%,
+      #b0b0b0 50%,
+      #ff7a3d 75%,
+      #ff7a3d 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(255, 92, 0, 0.3));
+  }
+  .loader-reflection {
+    transform: scaleY(-1) perspective(500px) rotateX(20deg);
+    transform-origin: top center;
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.2) 40%,
+      transparent 80%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.2) 40%,
+      transparent 80%
+    );
+  }
+  .loader-reflection-text {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 92, 0, 0.4) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: blur(1px);
+  }
 }
 
 @keyframes glimmer-wave {
-  0% { left: -50%; }
-  100% { left: 150%; }
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 150%;
+  }
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 :focus-visible {

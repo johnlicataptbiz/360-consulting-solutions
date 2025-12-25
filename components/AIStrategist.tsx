@@ -213,74 +213,50 @@ const AIStrategist: React.FC<AIStrategistProps> = ({ onConsultClick }) => {
                     </p>
                     
                     {/* 3D Glass Text with Floor Reflection */}
-                    <div className="relative py-8 mb-4">
-                      {/* Main text - Bold 3D chrome/glass effect */}
-                      <motion.div 
-                        key={loadingStep}
-                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5, ease: 'easeOut' }}
-                        className="relative"
-                      >
-                        {/* Shadow layer for depth */}
-                        <h3 
-                          className="text-3xl md:text-4xl lg:text-5xl font-black text-center leading-tight tracking-tight uppercase font-heading absolute inset-0"
-                          style={{
-                            color: 'transparent',
-                            textShadow: '0 8px 16px rgba(0,0,0,0.5), 0 16px 32px rgba(0,0,0,0.3)',
-                          }}
-                          aria-hidden="true"
+                      <div className="relative py-8 mb-4">
+                        {/* Main text - Bold 3D chrome/glass effect */}
+                        <motion.div 
+                          key={loadingStep}
+                          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.5, ease: 'easeOut' }}
+                          className="relative"
                         >
-                          {loadingSteps[loadingStep]?.text}
-                        </h3>
+                          {/* Shadow layer for depth */}
+                          <h3 
+                            className="text-3xl md:text-4xl lg:text-5xl font-black text-center leading-tight tracking-tight uppercase font-heading absolute inset-0 loader-text-shadow"
+                            aria-hidden="true"
+                          >
+                            {loadingSteps[loadingStep]?.text}
+                          </h3>
+                          
+                          {/* Main gradient text */}
+                          <h3 
+                            className="text-3xl md:text-4xl lg:text-5xl font-black text-center leading-tight tracking-tight uppercase font-heading relative loader-gradient-text"
+                          >
+                            {loadingSteps[loadingStep]?.text}
+                          </h3>
+                        </motion.div>
                         
-                        {/* Main gradient text */}
-                        <h3 
-                          className="text-3xl md:text-4xl lg:text-5xl font-black text-center leading-tight tracking-tight uppercase font-heading relative"
-                          style={{
-                            background: 'linear-gradient(180deg, #ffffff 0%, #e5e5e5 25%, #b0b0b0 50%, #FF7A3D 75%, #FF7A3D 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                            filter: 'drop-shadow(0 2px 4px rgba(255,92,0,0.3))',
-                          }}
+                        {/* Floor / Ground line */}
+                        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mt-4" />
+                        
+                        {/* Floor reflection - more visible */}
+                        <motion.div 
+                          key={`reflection-${loadingStep}`}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 0.4 }}
+                          transition={{ delay: 0.2 }}
+                          className="relative mt-1 loader-reflection"
                         >
-                          {loadingSteps[loadingStep]?.text}
-                        </h3>
-                      </motion.div>
-                      
-                      {/* Floor / Ground line */}
-                      <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mt-4" />
-                      
-                      {/* Floor reflection - more visible */}
-                      <motion.div 
-                        key={`reflection-${loadingStep}`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.4 }}
-                        transition={{ delay: 0.2 }}
-                        className="relative mt-1"
-                        style={{ 
-                          transform: 'scaleY(-1) perspective(500px) rotateX(20deg)',
-                          transformOrigin: 'top center',
-                          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 40%, transparent 80%)',
-                          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 40%, transparent 80%)',
-                        }}
-                      >
-                        <h3 
-                          className="text-3xl md:text-4xl lg:text-5xl font-black text-center leading-tight tracking-tight uppercase font-heading"
-                          style={{
-                            background: 'linear-gradient(180deg, rgba(255,92,0,0.4) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                            filter: 'blur(1px)',
-                          }}
-                        >
-                          {loadingSteps[loadingStep]?.text}
-                        </h3>
-                      </motion.div>
-                    </div>
+                          <h3 
+                            className="text-3xl md:text-4xl lg:text-5xl font-black text-center leading-tight tracking-tight uppercase font-heading loader-reflection-text"
+                          >
+                            {loadingSteps[loadingStep]?.text}
+                          </h3>
+                        </motion.div>
+                      </div>
                     
                     {/* Subtle instruction */}
                     <p className="text-[9px] font-bold tracking-[0.3em] text-gray-500 uppercase">

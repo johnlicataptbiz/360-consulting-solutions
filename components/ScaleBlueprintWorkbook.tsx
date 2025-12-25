@@ -48,15 +48,12 @@ interface ScaleBlueprintWorkbookProps {
 }
 
 const Logo = () => (
-  <div className="flex items-center gap-2">
-    <div className="relative w-8 h-8 flex items-center justify-center">
-      <div className="absolute inset-0 border-2 border-[#FF7A3D] rounded-full animate-pulse"></div>
-      <div className="w-4 h-4 bg-[#FF7A3D] rounded-full"></div>
-    </div>
-    <div className="flex flex-col leading-tight">
-      <span className="font-heading font-bold text-lg tracking-tight text-white">360</span>
-      <span className="text-[8px] uppercase tracking-[0.2em] font-bold text-slate-400">Consulting Solutions</span>
-    </div>
+  <div className="flex items-center">
+    <img 
+      src="/images/logo-360-consulting-solutions.png" 
+      alt="360 Consulting Solutions" 
+      className="h-10 w-auto object-contain"
+    />
   </div>
 );
 

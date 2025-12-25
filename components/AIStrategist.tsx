@@ -361,9 +361,9 @@ const AIStrategist: React.FC<AIStrategistProps> = ({ onConsultClick }) => {
                   {/* Logo - larger, no box */}
                   <div className="flex items-center justify-center mx-auto mb-8">
                     <img 
-                      src="/images/360-logo-new.png" 
-                      alt="360 Consulting" 
-                      className="h-20 w-auto object-contain brightness-0 invert drop-shadow-[0_0_20px_rgba(255,92,0,0.3)]"
+                      src="/images/logo-360-consulting-solutions.png" 
+                      alt="360 Consulting Solutions" 
+                      className="h-24 w-auto object-contain drop-shadow-[0_0_20px_rgba(255,92,0,0.3)]"
                     />
                   </div>
                   

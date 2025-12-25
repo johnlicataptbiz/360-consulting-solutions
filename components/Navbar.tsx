@@ -26,21 +26,12 @@ const Navbar: React.FC<NavbarProps> = ({ onConsultClick }) => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-3 flex items-center justify-between ${scrolled ? 'glass py-1' : 'bg-transparent'
         }`}
     >
-      <div className="flex items-center gap-3 group cursor-pointer polish-shine" role="link" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="360 Consulting Solutions Home">
+      <div className="flex items-center group cursor-pointer" role="link" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="360 Consulting Solutions Home">
         <img
-          src="/images/360-logo-new.png"
-          alt="360"
-          className="h-16 w-12 object-cover object-left transition-transform group-hover:scale-105 brightness-0 invert"
+          src="/images/logo-360-consulting-solutions.png"
+          alt="360 Consulting Solutions"
+          className="h-20 w-auto object-contain transition-transform group-hover:scale-105"
         />
-        <div className="h-12 w-[1px] bg-white"></div>
-        <div className="flex flex-col leading-none">
-          <span className="text-[#FF7A3D] font-black tracking-[0.3em] text-[10px] uppercase">
-            CONSULTING
-          </span>
-          <span className="text-[#FF7A3D] font-black tracking-[0.3em] text-[10px] uppercase">
-            SOLUTIONS
-          </span>
-        </div>
       </div>
 
       <div className="hidden xl:flex items-center gap-10" role="menubar">

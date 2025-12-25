@@ -11,21 +11,12 @@ const Footer: React.FC = () => {
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center">
               <img
-                src="/images/360-logo-new.png"
-                alt="360"
-                className="h-16 w-12 object-cover object-left brightness-0 invert"
+                src="/images/logo-360-consulting-solutions.png"
+                alt="360 Consulting Solutions"
+                className="h-20 w-auto object-contain"
               />
-              <div className="h-12 w-[1px] bg-white"></div>
-              <div className="flex flex-col leading-none">
-                <span className="text-[#FF7A3D] font-black tracking-[0.3em] text-[10px] uppercase">
-                  CONSULTING
-                </span>
-                <span className="text-[#FF7A3D] font-black tracking-[0.3em] text-[10px] uppercase">
-                  SOLUTIONS
-                </span>
-              </div>
             </div>
             <p className="text-gray-400 max-w-xs text-sm font-medium leading-relaxed">
               Strategic logic for elite performance. Winning at work without losing at home.

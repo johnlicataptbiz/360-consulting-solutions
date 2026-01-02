@@ -6,7 +6,8 @@
 
 This contains everything you need to run your app locally.
 
-Live site: https://360-consulting-solutions-johnlicata.surge.sh/
+Live site: https://360-consulting-solutions.vercel.app/  
+**Canonical host:** Vercel — this is the production deployment. To deploy to Vercel run `vercel --prod` or use the Vercel dashboard. For a Surge backup you can still run `npm run deploy:surge`.
 
 View your app in AI Studio: https://ai.studio/apps/drive/1GjnRU8foOA7gWelBpzrkz3xeek8patT0
 
